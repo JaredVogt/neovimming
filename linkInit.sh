@@ -7,7 +7,7 @@
 
 
 DATAPATH=~/.config/nvim
+BASE=$(basename $PWD)  # get the basename of the current working directory to create custom init.lua
 
-# move zsh files into place
-ln -sfv $DATAPATH/lua/jaredv/init.lua $DATAPATH/.
-
+# Create link to init.lua with repo prepended. To use this, call nvim with nvim -u ~/.config/nvim/[dir].init.lua 
+ln -sfv $DATAPATH/lua/$BASE/init.lua $DATAPATH/$BASE.init.lua
