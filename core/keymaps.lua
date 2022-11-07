@@ -60,7 +60,7 @@ map('n', '<leader>0', '<Cmd>BufferNext<CR>')
 map('n', '<leader><tab>', '<Cmd>BufferClose<CR>')
 
 -- leader util actions
-map('n', '<leader>r', ':so $MYVIMRC<CR>')  -- reload config without restart nvim
+map('n', '<leader>r', ':so ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- reload startup.lua without restart nvim
 map('n', '<leader>w', ':w<CR>')  -- fast save
 map('n', '<leader>q', ':q<CR>')  -- fast quit
 map('n', '<leader>wq', ':wq<CR>')  -- fast quit

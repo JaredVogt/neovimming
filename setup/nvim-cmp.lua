@@ -4,7 +4,8 @@ if not cmp_status then
 	return
 end
 
-print('nvim-cmp def being called')
+-- print('nvim-cmp def being called')
+
 -- import luasnip plugin safely
 local luasnip_status, luasnip = pcall(require, "luasnip")
 if not luasnip_status then
