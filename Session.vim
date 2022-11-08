@@ -14,7 +14,11 @@ else
   set shortmess=aoO
 endif
 badd +1 core/keymaps.lua
-badd +51 plugins-setup.lua
+badd +40 plugins-setup.lua
+badd +1 core/options.lua
+badd +9 core/autocmds.lua
+badd +20 init.lua
+badd +0 startup.lua
 argglobal
 %argdel
 $argadd plugins-setup.lua
@@ -35,8 +39,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 122 + 127) / 255)
-exe 'vert 2resize ' . ((&columns * 132 + 127) / 255)
+exe 'vert 1resize ' . ((&columns * 98 + 102) / 205)
+exe 'vert 2resize ' . ((&columns * 106 + 102) / 205)
 argglobal
 balt plugins-setup.lua
 setlocal fdm=manual
@@ -49,7 +53,7 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 46 - ((45 * winheight(0) + 48) / 97)
+let s:l = 46 - ((39 * winheight(0) + 41) / 83)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -57,11 +61,11 @@ keepjumps 46
 normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("plugins-setup.lua", ":p")) | buffer plugins-setup.lua | else | edit plugins-setup.lua | endif
+if bufexists(fnamemodify("startup.lua", ":p")) | buffer startup.lua | else | edit startup.lua | endif
 if &buftype ==# 'terminal'
-  silent file plugins-setup.lua
+  silent file startup.lua
 endif
-balt core/keymaps.lua
+balt core/options.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -72,16 +76,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 40 - ((39 * winheight(0) + 48) / 97)
+let s:l = 13 - ((12 * winheight(0) + 41) / 83)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 40
-normal! 03|
+keepjumps 13
+normal! 035|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 122 + 127) / 255)
-exe 'vert 2resize ' . ((&columns * 132 + 127) / 255)
+exe 'vert 1resize ' . ((&columns * 98 + 102) / 205)
+exe 'vert 2resize ' . ((&columns * 106 + 102) / 205)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

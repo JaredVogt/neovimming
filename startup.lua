@@ -10,6 +10,7 @@ print(userName .. '> startup.lua refreshed')
 
 require(userName .. ".plugins-setup")
 require(userName .. ".core.options")
+require(userName .. ".core.autocmds")
 -- require(userName .. ".core.keymapsWithDesc")  -- experimental 
 require(userName .. ".core.keymaps")
 require(userName .. ".core.colorscheme")
