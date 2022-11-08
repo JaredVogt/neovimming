@@ -6,7 +6,7 @@ local o = vim.opt -- for conciseness
 local a = vim.api -- for conciseness
 
 -- guivim
-o.guifont = { "Monoco", "h15" }
+o.guifont = { "FiraCode Nerd Font Mono", "h15" }
 
 -- behavior
 o.timeoutlen = 500
@@ -69,7 +69,7 @@ o.autoread = true  -- Autom. read file when changed outside of Vim
 o.linebreak = true  -- Wrap long lines at a blank
 o.autowrite = true  -- Autom. save file before some action
 
--- " setup the cross hairs
+-- " setup the cross hairs (along with colors)
 -- hi CursorLine   cterm=NONE ctermbg=black guibg=#330000          " guifg=white  ctermfg=lightblue  overrides the colors on highlighted characters - disconcerting, but distinct
 -- hi CursorColumn cterm=NONE ctermbg=black guibg=#330000
 -- set cursorline cursorcolumn
@@ -83,10 +83,16 @@ a.nvim_create_autocmd(  -- switch to normal mode on change of focus
   { command = [[call feedkeys("\<C-\>\<C-n>")]] }
 )
 
-a.nvim_create_autocmd(  -- Auto save buffers whenever you lose focus
+a.nvim_create_autocmd(  -- Auto save buffers whenever neovim loses focus 
   "FocusLost",
   { command = [[silent! wa]] }
 )
+
+a.nvim_create_autocmd(  -- Auto save buffers whenever buffer loses focus 
+  "BufHidden",
+  { command = [[silent! wa]] }
+)
+
 a.nvim_create_autocmd(  -- set ft=markdown if no filetype specified 
   "BufEnter",
   { command = [[if &filetype == "" | setlocal ft=markdown | endif]] }

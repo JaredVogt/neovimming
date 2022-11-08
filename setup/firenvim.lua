@@ -11,3 +11,8 @@ vim.g.firenvim_config = {
     },
   }
 }
+
+
+
+-- https://github.com/glacambre/firenvim/issues/650
+-- https://github.com/glacambre/firenvim/pull/1403/files

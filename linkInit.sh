@@ -12,6 +12,9 @@ BASE=$(basename $PWD)  # get the basename of the current working directory to cr
 # Create link to init.lua with repo prepended. To use this, call nvim with nvim -u ~/.config/nvim/[dir].init.lua 
 ln -sfv $DATAPATH/lua/$BASE/init.lua $DATAPATH/$BASE.init.lua
 
+# Symlink .nvimuser to home directory
+ln -sfv $DATAPATH/lua/$BASE/.nvimuser.sh ~/.nvimuser.sh 
+
 
 # TODO Set environmental variable for nvim user
 
