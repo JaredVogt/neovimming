@@ -11,8 +11,10 @@ BASE=$(basename $PWD)  # get the basename of the current working directory to cr
 # Create link to init.lua with repo prepended. To use this, call nvim with nvim -u ~/.config/nvim/[dir].init.lua 
 ln -sfv $DATAPATH/lua/$BASE/init.lua $DATAPATH/.
 
-# Symlink activeUser file to lua root
-ln -sfv $DATAPATH/lua/$BASE/activeUser $DATAPATH/.
-
 # Symlink getActiveUser.lua to lua root 
 ln -sfv $DATAPATH/lua/$BASE/getActiveUser.lua $DATAPATH/lua/.
+
+# Create activeUser file in DATAPATH 
+echo $BASE > $DATAPATH/activeUser
+
+
