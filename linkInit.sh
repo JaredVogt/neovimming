@@ -5,17 +5,14 @@
 # check for existance of init.lua
 # if exists, ask user if they want to move and proceed with linking
 
-
 DATAPATH=~/.config/nvim
 BASE=$(basename $PWD)  # get the basename of the current working directory to create custom init.lua
 
 # Create link to init.lua with repo prepended. To use this, call nvim with nvim -u ~/.config/nvim/[dir].init.lua 
-ln -sfv $DATAPATH/lua/$BASE/init.lua $DATAPATH/$BASE.init.lua
+ln -sfv $DATAPATH/lua/$BASE/init.lua $DATAPATH/.
 
-# Symlink .nvimuser to home directory
-ln -sfv $DATAPATH/lua/$BASE/.nvimuser.sh ~/.nvimuser.sh 
+# Symlink activeUser file to lua root
+ln -sfv $DATAPATH/lua/$BASE/activeUser $DATAPATH/.
 
-
-# TODO Set environmental variable for nvim user
-
-
+# Symlink getActiveUser.lua to lua root 
+ln -sfv $DATAPATH/lua/$BASE/getActiveUser.lua $DATAPATH/lua/.

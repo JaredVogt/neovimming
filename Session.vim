@@ -18,7 +18,8 @@ badd +40 plugins-setup.lua
 badd +1 core/options.lua
 badd +9 core/autocmds.lua
 badd +20 init.lua
-badd +0 startup.lua
+badd +13 startup.lua
+badd +0 README.md
 argglobal
 %argdel
 $argadd plugins-setup.lua
@@ -61,11 +62,11 @@ keepjumps 46
 normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("startup.lua", ":p")) | buffer startup.lua | else | edit startup.lua | endif
+if bufexists(fnamemodify("README.md", ":p")) | buffer README.md | else | edit README.md | endif
 if &buftype ==# 'terminal'
-  silent file startup.lua
+  silent file README.md
 endif
-balt core/options.lua
+balt startup.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -76,12 +77,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 13 - ((12 * winheight(0) + 41) / 83)
+let s:l = 1 - ((0 * winheight(0) + 41) / 83)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 13
-normal! 035|
+keepjumps 1
+normal! 0
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 98 + 102) / 205)

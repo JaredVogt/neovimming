@@ -48,6 +48,7 @@ return packer.startup(function(use)
   use("szw/vim-maximizer") -- maximizes and restores current window essential plugins
   use("tpope/vim-surround") -- add, delete, change surroundings (it's awesome)
   use("vim-scripts/ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
+  use("wellle/targets.vim") -- new text targets
 
    -- auto closing
   use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...

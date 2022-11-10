@@ -28,7 +28,8 @@ map("n", "<ESC><ESC><ESC>", ":nohl<CR>")  -- clear search highlight
 map("n", "<leader>s", ":setlocal spell!<cr>")  -- clear search highlight
 map("n", "<leader>sn", "]s")  -- go to next word
 map("n", "<leader>sp", "[s")  -- go to previous word
-map("n", "<leader>su", "=z")  -- suggestion alternatives
+map("n", "<leader>su", "z=")  -- suggestion alternatives
+map("n", "<leader>sf", "1z=")  -- suggestion alternatives
 map("n", "<leader>sd", "zg")  -- Add to dictionary
 map("n", "<leader>sug", "zug")  -- Remove from dictionary
 
@@ -37,7 +38,7 @@ map("n", ":", "q:a")
 map("n", "/", "q/a") 
 map("n", "?", "q?a") 
 
--- Edit options
+-- Edit options (TODO these are temporary - currently hardcoded to my directory)
 map("n", "<leader>es", ":tabe ~/.config/nvim/lua/jaredv/core/keymaps.lua<cr>")  -- clear search highlight
 map("n", "<leader>eo", ":tabe ~/.config/nvim/lua/jaredv/core/options.lua<cr>")  -- clear search highlight
 map("n", "<leader>ep", ":tabe ~/.config/nvim/lua/jaredv/plugins-setup.lua<cr>")  -- clear search highlight
@@ -61,7 +62,7 @@ map('n', '<leader><tab>', '<Cmd>BufferClose<CR>')
 
 -- leader util actions
 map('n', '<leader>r', ':so ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- reload startup.lua without restart nvim
--- map('n', '<leader>i', ':e ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- edit startup.lua without restart nvim
+-- map('n', '<leader>i', ':e ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- edit startup.lua
 map('n', '<leader>w', ':w<CR>')  -- fast save
 map('n', '<leader>q', ':q<CR>')  -- fast quit
 map('n', '<leader>wq', ':wq<CR>')  -- fast quit
@@ -93,10 +94,3 @@ map("n", "k", "gk")
 -- "" <L>u        - select word under cursor and prep for replace - http://vim.wikia.com/wiki/Search_and_replace_the_word_under_the_cursor NOTE: <Left> kicks the cursor back to left
 -- map('n', '<leader>u', ':%s/\<<C-r><C-w>\>//gc<Left><Left>Left>')
 -- nnoremap <Leader>u :%s/\<<C-r><C-w>\>//gc<Left><Left><Left>
-
--- Jared's to implement
--- j/k/0/$ moves even for a wrapped lines (updated with hint for use with relative line numbers - https://blog.petrzemek.net/2016/04/06/things-about-vim-i-wish-i-knew-earlier/)
--- nmap 0 g0
--- nmap $ g$
--- noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
--- noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')

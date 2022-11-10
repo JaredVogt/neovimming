@@ -5,46 +5,53 @@
 local o = vim.opt -- for conciseness
 local a = vim.api -- for conciseness
 
--- autocmds
-a.nvim_create_autocmd(  -- switch to normal mode on change of focus 
+-- switch to normal mode on change of focus 
+a.nvim_create_autocmd(
   "FocusLost",
   { command = [[call feedkeys("\<C-\>\<C-n>")]] }
 )
 
-a.nvim_create_autocmd(  -- Auto save buffers whenever neovim loses focus 
+-- auto save buffers whenever neovim loses focus 
+a.nvim_create_autocmd(
   "FocusLost",
   { command = [[silent! wa]] }
 )
 
-a.nvim_create_autocmd(  -- Auto save buffers whenever buffer loses focus 
+-- Auto save buffers whenever buffer loses focus
+a.nvim_create_autocmd(
   "BufHidden",
   { command = [[silent! wa]] }
 )
 
-a.nvim_create_autocmd(  -- set ft=markdown if no filetype specified 
+-- set ft=markdown if no filetype specified
+a.nvim_create_autocmd(
   "BufEnter",
   { command = [[if &filetype == "" | setlocal ft=markdown | endif]] }
 )
-a.nvim_create_autocmd(  -- step 1 - switch to normal mode in 120secs
+
+-- step 1 - switch to normal mode in 120secs
+a.nvim_create_autocmd(
   "InsertEnter",
   { command = [[let updaterestore=&updatetime | set updatetime=120000]] }
 )
 
-a.nvim_create_autocmd( -- step 2
+-- step 2 - switch to normal mode in 120secs
+a.nvim_create_autocmd(
   "InsertLeave",
   { command = [[let &updatetime=updaterestore]] }
 )
 
-a.nvim_create_autocmd(  -- step 3
+-- step 3 - switch to normal mode in 120secs
+a.nvim_create_autocmd(
   "CursorHoldI",
   { command = [[stopinsert]] }
 )
 
-
 -- bufcheck autocmd group
 a.nvim_create_augroup('bufcheck', {clear = true})
 
-a.nvim_create_autocmd(  -- highlight yanks
+-- highlight yanks
+a.nvim_create_autocmd(
   'TextYankPost', 
   {
     group    = 'bufcheck',
@@ -64,3 +71,8 @@ a.nvim_create_autocmd(  -- highlight yanks
 --          vim.cmd('silent! foldopen')
 --          end end })
 
+-- Enable spell checking for certain file types
+a.nvim_create_autocmd(
+    { "BufRead", "BufNewFile" },
+    { pattern = { "*.txt", "*.md", "*.tex" }, command = "setlocal spell" }
+)
