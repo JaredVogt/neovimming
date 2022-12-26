@@ -2,7 +2,7 @@
 -- Define keymaps of Neovim and installed plugins.
 -----------------------------------------------------------
 
-local function map(mode, lhs, rhs, opts, desc)
+local function map(mode, lhs, rhs, opts, desc)  -- FIXME desc was for custom descriptions - use whichkey
   local options = { noremap = true, silent = true }
   if opts then
     options = vim.tbl_extend('force', options, opts)
@@ -15,14 +15,16 @@ end
 
 vim.g.mapleader = ' '  -- space for leader
 
--- general keymaps
+-- My general keymaps
 map("n", "x", '"_x')  -- deletes letter but doesn't put it in register!
-map("n", "<leader>u", "<C-r>")  -- redo 
+map("n", "U", "<C-r>")  -- redo undo
 map("n", "dw", "daw")  -- delete word anywhere in it
+map("n", "yw", "yiw")  -- yank word anywhere in it
 map("n", "<leader>;", "g;")  -- jump back to last edit 
 -- map("n", "<leader>o", "<crtl>o")  -- jump back to last edit FIXME not working
 map("n", "<ESC><ESC><ESC>", ":nohl<CR>")  -- clear search highlight
-
+map("n", "j", "gj")  -- move one down display line instead of physicial line
+map("n", "k", "gk")  -- move one up display line instead of physicial line
 
 -- Spelling
 map("n", "<leader>s", ":setlocal spell!<cr>")  -- clear search highlight
@@ -34,14 +36,9 @@ map("n", "<leader>sd", "zg")  -- Add to dictionary
 map("n", "<leader>sug", "zug")  -- Remove from dictionary
 
 -- Command window with history
-map("n", ":", "q:a") 
-map("n", "/", "q/a") 
-map("n", "?", "q?a") 
-
--- Edit options (TODO these are temporary - currently hardcoded to my directory)
-map("n", "<leader>es", ":tabe ~/.config/nvim/lua/jaredv/core/keymaps.lua<cr>")  -- clear search highlight
-map("n", "<leader>eo", ":tabe ~/.config/nvim/lua/jaredv/core/options.lua<cr>")  -- clear search highlight
-map("n", "<leader>ep", ":tabe ~/.config/nvim/lua/jaredv/plugins-setup.lua<cr>")  -- clear search highlight
+map("n", ":", "q:a")
+map("n", "/", "q/a")
+map("n", "?", "q?a")
 
 -- window management
 map("n", "<leader>sv", "<C-w>v") -- split window vertically
@@ -54,15 +51,10 @@ map("n", "<leader>tx", ":tabclose<CR>") -- close current tab
 map("n", "<leader>9", ":tabn<CR>") --  go to next tab
 map("n", "<leader>0", ":tabp<CR>") --  go to previous tab
 
--- barbar
-map('n', '<leader>-', '<Cmd>BufferPick<CR>')
-map('n', '<leader>9', '<Cmd>BufferPrevious<CR>')
-map('n', '<leader>0', '<Cmd>BufferNext<CR>')
-map('n', '<leader><tab>', '<Cmd>BufferClose<CR>')
-
 -- leader util actions
-map('n', '<leader>r', ':so ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- reload startup.lua without restart nvim
--- map('n', '<leader>i', ':e ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- edit startup.lua
+-- map('n', '<leader>r', ':so ~/.config/nvim/lua/'.. userName .. '/startup.lua<CR>')  -- reload startup.lua without restart nvim
+map('n', '<leader>r', '<Plug>ReplaceWithRegisterOperator')  -- https://github.com/inkarkat/vim-ReplaceWithRegister
+map('n', '<leader>w', ':w<CR>')  -- fast save
 map('n', '<leader>w', ':w<CR>')  -- fast save
 map('n', '<leader>q', ':q<CR>')  -- fast quit
 map('n', '<leader>wq', ':wq<CR>')  -- fast quit
@@ -71,7 +63,8 @@ map('n', '<leader>wq', ':wq<CR>')  -- fast quit
 ----------------------
 -- Plugin Keybinds
 ----------------------
-map("n", "<leader>e", ": NvimTreeToggle<CR>")  -- NvimTreeToggle
+-- NvimTreeToggle
+map("n", "<leader>e", ": NvimTreeToggle<CR>")
 
 -- telescope
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
@@ -82,13 +75,17 @@ map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help ta
 map("n", "<leader>fm", "<cmd>Telescope commands<cr>") -- list available commandsj
 map("n", "<leader>fr", "<cmd>Telescope registers<cr>") -- list available commandsj
 
+-- undotree
+map("n", "<leader>u", "<cmd>UndotreeToggle<cr>")
 
-----------------------
--- Jared's extras 
-----------------------
--- move one up/down display line instead of physicial line
-map("n", "j", "gj")
-map("n", "k", "gk")
+-- barbar
+map('n', '<leader>-', '<Cmd>BufferPick<CR>')
+map('n', '<leader>9', '<Cmd>BufferPrevious<CR>')
+map('n', '<leader>0', '<Cmd>BufferNext<CR>')
+map('n', '<leader><tab>', '<Cmd>BufferClose<CR>')
+
+-- lsp-zero
+-- see lsp-zero.lua for keybindings
 
 
 -- "" <L>u        - select word under cursor and prep for replace - http://vim.wikia.com/wiki/Search_and_replace_the_word_under_the_cursor NOTE: <Left> kicks the cursor back to left

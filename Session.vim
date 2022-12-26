@@ -13,37 +13,22 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 core/keymaps.lua
-badd +40 plugins-setup.lua
+badd +110 plugins-setup.lua
+badd +14 ~/.config/nvim/lua/jaredv/startup.lua
+badd +49 core/keymaps.lua
+badd +18 README.md
+badd +19 setup/lsp-zero.lua
 badd +1 core/options.lua
-badd +9 core/autocmds.lua
-badd +20 init.lua
-badd +13 startup.lua
-badd +0 README.md
+badd +28 ~/.config/nvim/lua/jaredv/core/colorscheme.lua
+badd +35 core/autocmds.lua
+badd +13 setup/firenvim.lua
+badd +9 ~/.config/nvim/lua/jaredv/setup/which-key.lua
 argglobal
 %argdel
 $argadd plugins-setup.lua
-edit core/keymaps.lua
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe 'vert 1resize ' . ((&columns * 98 + 102) / 205)
-exe 'vert 2resize ' . ((&columns * 106 + 102) / 205)
+edit ~/.config/nvim/lua/jaredv/core/colorscheme.lua
 argglobal
-balt plugins-setup.lua
+balt setup/lsp-zero.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -54,39 +39,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 46 - ((39 * winheight(0) + 41) / 83)
+let s:l = 25 - ((24 * winheight(0) + 41) / 82)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 46
-normal! 0
-wincmd w
-argglobal
-if bufexists(fnamemodify("README.md", ":p")) | buffer README.md | else | edit README.md | endif
-if &buftype ==# 'terminal'
-  silent file README.md
-endif
-balt startup.lua
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 41) / 83)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 1
-normal! 0
-wincmd w
-2wincmd w
-exe 'vert 1resize ' . ((&columns * 98 + 102) / 205)
-exe 'vert 2resize ' . ((&columns * 106 + 102) / 205)
+keepjumps 25
+normal! 044|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -94,8 +52,6 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)

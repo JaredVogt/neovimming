@@ -1,4 +1,8 @@
+-- Set gobal `activeUser`
+
 local user = 'default'
+
+-- if activeUser can't be read, set user to 'default'
 local function read_file(path)
     local file = io.open(path, "rb") -- r read mode and b binary mode
     if file 
@@ -10,12 +14,12 @@ local function read_file(path)
         -- print ('There is no activeUser file. Using default paths') 
       end
 end
+-- FIXME this should warn the user that active file is not present
 
+-- attempt to read activeUser file
 read_file(os.getenv("HOME") .. "/.config/nvim/activeUser")
--- print ('this came from my new magic code')
--- print (user)
 
--- set userName to choose appropriate config file directory structure
+-- set the variable
 local a = vim.api -- for conciseness
 a.nvim_set_var(  
   "userName",

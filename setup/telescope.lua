@@ -28,4 +28,10 @@ telescope.setup({
 	},
 })
 
+-- pop a grep line to search through 
+-- FIXME below from https://youtu.be/w7i4amO_zaE?t=399 
+-- vim.keymap.set('n', '<leader>ps', function()
+-- 	builtin.grep_string({ search = vim.fn.input("Grep > ") })
+-- end)
+
 telescope.load_extension("fzf")

@@ -1,11 +1,9 @@
 -----------------------------------------------------------
 -- Setup packer and load plugins 
 -----------------------------------------------------------
-local a = vim.api -- for conciseness
+local va = vim.api -- for conciseness
 
-userName = a.nvim_get_var('userName')  -- variable is set in init.lua
--- userName = 'jaredv'
-plugSetupDir = '.setup'  -- set base dir for plugin configs 
+userPlugDir = (va.nvim_get_var('userName') .. '.setup')  -- plugin folder for userName (vim var)
 
 local ensure_packer = function()
   local fn = vim.fn
@@ -18,8 +16,14 @@ local ensure_packer = function()
   return false
 end
 
+-- Helper function (TODO not used)
+local requirePlug = function(plugin)
+  require(userPlugDir .. plugin)
+end
+
 local packer_bootstrap = ensure_packer()
 
+-- Run PackerSync on save
 vim.cmd([[
   augroup packer_user_config
     autocmd!
@@ -27,8 +31,9 @@ vim.cmd([[
   augroup end
 ]])
 
-local status, packer = pcall(require, "packer")
-if not status then
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  vim.notify("packer failed to load")
   return
 end
 
@@ -36,100 +41,143 @@ return packer.startup(function(use)
 	use("wbthomason/packer.nvim")
 
   -- colorschemes
-  use("bluz71/vim-nightfly-guicolors") -- preferred colorscheme
-  use("overcache/NeoSolarized") -- preferred colorscheme
+  use("bluz71/vim-nightfly-guicolors")
+  use("overcache/NeoSolarized")
   use("ellisonleao/gruvbox.nvim")
   use("navarasu/onedark.nvim")
   use("EdenEast/nightfox.nvim")
-  
-  -- random
+
+  -- requires
   use("nvim-lua/plenary.nvim") -- lua functions that many plugins use
-  use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
+  use('kyazdani42/nvim-web-devicons')  -- vscode like icons - dependency of couple of plugins
+
+  -- random
   use("szw/vim-maximizer") -- maximizes and restores current window essential plugins
   use("tpope/vim-surround") -- add, delete, change surroundings (it's awesome)
-  use("vim-scripts/ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
+  use("inkarkat/vim-ReplaceWithRegister") -- replace with register contents using motion (gr + motion)
   use("wellle/targets.vim") -- new text targets
-
+  use("ThePrimeagen/harpoon") -- shortcuts to files 
+  use('romgrk/barbar.nvim')  -- tab bar with barbar
+  use('JoosepAlviste/nvim-ts-context-commentstring')  -- contextual comment used with Comment.vim
+  
    -- auto closing
   use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
-  require (userName .. plugSetupDir .. ".autopairs")  -- grab config
+  require(userPlugDir .. ".autopairs")
 
-  use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
+ -- autoclose tags
+  use({
+    "windwp/nvim-ts-autotag",
+    after = "nvim-treesitter"
+  })
 
   -- hop/easymotion
-  use {
+  use({
     "phaazon/hop.nvim",
     branch = "v1" -- optional but strongly recommended
-  }
-  require (userName .. plugSetupDir .. ".hop")  -- grab config
-  
+  })
+  require(userPlugDir .. ".hop")
+
   -- git stuff
   use({
     "lewis6991/gitsigns.nvim",
     config = function()
-      require(userName .. plugSetupDir .. ".gitsigns").setup()
+      require(userPlugDir .. ".gitsigns").setup()
     end,
-    -- requires = "nvim-lua/plenary.nvim",
   })
 
   -- shortcut help
   use("folke/which-key.nvim")
-  require (userName .. plugSetupDir .. ".which-key")
+  require(userPlugDir .. ".which-key")
 
- -- tab bar with barbar
-  use {
-  'romgrk/barbar.nvim',
-  requires = {'kyazdani42/nvim-web-devicons'}
-  }
-  
+ -- visualize undo tree
+ -- FIXME shortcut is not working see keymaps 
+  use("mbbill/undotree")
+  -- require(userPlugDir .. ".undotree")
+
   -- commenting with cc
   use("numToStr/Comment.nvim")
-  require (userName .. plugSetupDir .. ".comment")  -- grab config
+  require(userPlugDir .. ".comment")
+  -- TODO add nvim-tx-comment to get contextual comment strings
 
   -- file explorer
   use("nvim-tree/nvim-tree.lua")
-  require (userName .. plugSetupDir .. ".nvim-tree")  -- grab config
-
-  -- vs-code like icons
-  use("kyazdani42/nvim-web-devicons")
+  require(userPlugDir .. ".nvim-tree")
 
   -- statusline
   use("nvim-lualine/lualine.nvim")
-  require (userName .. plugSetupDir .. ".lualine")  -- grab config
+  require(userPlugDir .. ".lualine")
 
   -- fuzzy finding w/ telescope
-  use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
-  use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
-  require (userName .. plugSetupDir .. ".telescope")  -- grab config
-
-  -- autocompletion
-  use("hrsh7th/nvim-cmp") -- completion plugin
-  use("hrsh7th/cmp-buffer") -- source for text in buffer
-  use("hrsh7th/cmp-path") -- source for text in path 
-
-  -- snippets
-  use("L3MON4D3/LuaSnip") -- snippet engine
-  use("saadparwaiz1/cmp_luasnip") -- for autocompletion
-  use("rafamadriz/friendly-snippets") -- useful snippets
-  require (userName .. plugSetupDir .. ".nvim-cmp")  -- grab config
+  use({
+    "nvim-telescope/telescope-fzf-native.nvim",
+    run = "make"
+  }) -- dependency for better sorting performance
+  use({
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x"
+  }) -- fuzzy finder
+  require(userPlugDir .. ".telescope")
 
   -- formatting & linting
+  -- TODO is this even functional?
   use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
   use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
 
   -- treesitter configuration
   use({
     "nvim-treesitter/nvim-treesitter",
-    run = function()
-    require("nvim-treesitter.install").update({ with_sync = true })
+    run = function()  -- TODO what does this do???
+      require("nvim-treesitter.install").update({ with_sync = true })
     end,
   })
 
-  -- setup firenvim for browser use
+-- setup lsp stuff using lsp-zero 
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/mason.nvim'},
+      {'williamboman/mason-lspconfig.nvim'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-nvim-lua'},
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},
+      {'rafamadriz/friendly-snippets'},
+    }
+  }
+  require(userPlugDir .. ".lsp-zero")
+
+-- setup firenvim for browser use
   use({
     'glacambre/firenvim',
-    run = function() vim.fn['firenvim#install'](0) end
+    run = function()
+      vim.fn['firenvim#install'](0)
+    end
   })
+
+  -- TODO this needs to be moved to a config file
+  use { 'alexghergh/nvim-tmux-navigation', config = function()
+        require'nvim-tmux-navigation'.setup {
+            disable_when_zoomed = true, -- defaults to false
+            keybindings = {
+                left = "<C-h>",
+                down = "<C-j>",
+                up = "<C-k>",
+                right = "<C-l>",
+                last_active = "<C-\\>",
+                next = "<C-Space>",
+            }
+        }
+    end
+  } 
 
   -- Put this at the end after all plugins
   if packer_bootstrap then
