@@ -23,7 +23,29 @@ va.nvim_create_autocmd(
   { command = [[silent! wa]] }
 )
 
--- set ft=markdown if no filetype specified
+-- Set up fold augroup
+va.nvim_create_augroup('fold', {clear = true})
+
+-- Load folds
+va.nvim_create_autocmd(
+  "BufEnter",
+  { 
+    group    = 'fold',
+    pattern = '*.*',
+    command = [[loadview]]
+  }
+)
+
+-- Remember folds
+va.nvim_create_autocmd(
+  "BufLeave",
+  {
+    group    = 'fold',
+    pattern = '*.*',
+    command = [[mkview]]
+  }
+)
+
 va.nvim_create_autocmd(
   "BufEnter",
   { command = [[if &filetype == "" | setlocal ft=markdown | endif]] }
@@ -74,5 +96,8 @@ va.nvim_create_autocmd(
 -- Enable spell checking for certain file types
 va.nvim_create_autocmd(
     { "BufRead", "BufNewFile" },
-    { pattern = { "*.txt", "*.md", "*.tex" }, command = "setlocal spell" }
+    { 
+      pattern = { "*.txt", "*.md", "*.tex" },
+      command = "setlocal spell"
+    }
 )

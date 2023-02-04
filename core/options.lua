@@ -44,6 +44,9 @@ vo.pumblend = 15  -- pseudo-transparency of pop-menu
 -- backspace
 vo.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
+-- show folding column
+vo.foldcolumn = '2' 
+
 -- mouse
 vo.mouse = 'a'
 

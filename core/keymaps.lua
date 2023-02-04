@@ -25,6 +25,10 @@ map("n", "<leader>;", "g;")  -- jump back to last edit
 map("n", "<ESC><ESC><ESC>", ":nohl<CR>")  -- clear search highlight
 map("n", "j", "gj")  -- move one down display line instead of physicial line
 map("n", "k", "gk")  -- move one up display line instead of physicial line
+-- map("n", "<CR>", "o<ESC>")  -- insert new line and escape  
+
+-- Folding
+map("n", "<leader>z", "za")  -- fold toggle 
 
 -- Spelling
 map("n", "<leader>s", ":setlocal spell!<cr>")  -- clear search highlight
